@@ -1,0 +1,118 @@
+import math
+import matplotlib.pyplot as plt
+
+# -------------------------------------------------
+# PROGRAMME DE STATISTIQUES
+# Ce programme permet de calculer :
+# - la moyenne
+# - la variance
+# - l'écart-type
+# - la médiane
+# à partir de valeurs entrées par l'utilisateur.
+# Il affiche ensuite une représentation graphique.
+# -------------------------------------------------
+
+# -------------------
+# ENTREE DES DONNEES
+# -------------------
+# L'utilisateur entre les valeurs séparées par des virgules
+donnees = input("Entre les valeurs séparées par des virgules : ")
+
+# On transforme le texte en liste de nombres
+valeurs = [float(x) for x in donnees.split(",")]
+
+# Nombre total de valeurs
+N = len(valeurs)
+
+# -------------------
+# CALCUL DE LA MOYENNE μ
+# μ = somme(xi) / N
+# -------------------
+
+# On calcule d'abord la somme des valeurs
+somme = 0
+for x in valeurs:
+    somme += x
+
+# On divise la somme par le nombre de valeurs
+mu = somme / N
+
+# -------------------
+# CALCUL DE LA VARIANCE σ²
+# σ² = somme((xi - μ)²) / N
+# -------------------
+
+# On calcule la somme des carrés des écarts à la moyenne
+somme_ecarts = 0
+for x in valeurs:
+    somme_ecarts += (x - mu) ** 2
+
+# On divise par le nombre de valeurs
+variance = somme_ecarts / N
+
+# -------------------
+# CALCUL DE L'ECART-TYPE σ
+# σ = √variance
+# -------------------
+
+# L'écart-type est la racine carrée de la variance
+ecart_type = math.sqrt(variance)
+
+# -------------------
+# CALCUL DE LA MEDIANE
+# -------------------
+
+# On commence par trier les valeurs
+valeurs_triees = sorted(valeurs)
+
+# Si le nombre de valeurs est impair
+if N % 2 == 1:
+    # La médiane est la valeur du milieu
+    mediane = valeurs_triees[N // 2]
+
+# Si le nombre de valeurs est pair
+else:
+    # La médiane est la moyenne des deux valeurs centrales
+    mediane = (valeurs_triees[N//2 - 1] +
+               valeurs_triees[N//2]) / 2
+
+# -------------------
+# AFFICHAGE DES RESULTATS
+# -------------------
+
+print("\n----- Résultats -----")
+print("Moyenne μ =", mu)
+print("Variance σ² =", variance)
+print("Écart-type σ =", ecart_type)
+print("Médiane =", mediane)
+
+# -------------------
+# REPRESENTATION GRAPHIQUE
+# -------------------
+
+# On crée l'axe horizontal (numéro des observations)
+x = list(range(1, N + 1))
+
+# Création de la figure
+plt.figure()
+
+# Tracé de la courbe des valeurs triées
+plt.plot(x, valeurs_triees, marker="o")
+
+# Ligne horizontale représentant la moyenne
+plt.axhline(mu, linestyle="dashed", label="Moyenne μ")
+
+# Ligne horizontale représentant la médiane
+plt.axhline(mediane, linestyle="solid", label="Médiane")
+
+# Titres et légendes du graphique
+plt.title("Courbe des données")
+plt.xlabel("Observation")
+plt.ylabel("Valeur")
+
+# Affichage de la légende et de la grille
+plt.legend()
+plt.grid()
+
+# Affichage du graphique
+plt.show()
